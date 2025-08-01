@@ -393,8 +393,8 @@ function init() {
 
   scroller.setup({
     step: ":is(.chapter,.step)",
-    offset: 0.6,
-    debug: false,
+    offset: 0.5,
+    debug: true,
   });
 
   // 3. bind scrollama event handlers (this can be chained like below)

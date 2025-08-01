@@ -32,6 +32,7 @@ a:hover {
   margin: 1rem auto;
   min-height: 640px;
   scroll-margin-top: 25px;
+  background-color: red;
 }
 
 .intro {
@@ -71,9 +72,9 @@ article {
   padding: 5px;
   padding-left: 50px;
   position: absolute;
-  background-color: white;
-  top: 98%;
-  left: 97%;
+  background-color: red;
+  top: 99%;
+  left: 96%;
   -moz-transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -85,7 +86,7 @@ article {
   padding: 5px;
   opacity: 0.1;
   transition: ease, 1s;
-  /* border: 1px solid; */
+  border: 1px solid;
   scroll-margin-top: 100px;
 }
 
