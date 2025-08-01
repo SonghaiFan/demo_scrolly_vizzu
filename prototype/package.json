@@ -1,0 +1,23 @@
+{
+  "name": "music-format-evolution-scrollytelling",
+  "version": "1.0.0",
+  "description": "A declarative scrollytelling visualization of music format evolution using Vizzu.js",
+  "type": "module",
+  "main": "js/main.js",
+  "scripts": {
+    "generate": "node generate-html.js",
+    "dev": "python3 -m http.server 8000",
+    "start": "npm run generate && npm run dev"
+  },
+  "keywords": [
+    "scrollytelling",
+    "data-visualization",
+    "vizzu",
+    "music",
+    "interactive"
+  ],
+  "author": "Songhai Fan",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+} 
