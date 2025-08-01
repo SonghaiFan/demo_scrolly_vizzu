@@ -67,20 +67,6 @@ article {
   /* shape-rendering: optimizeSpeed; */
 }
 
-.figure p {
-  text-align: right;
-  padding: 5px;
-  padding-left: 50px;
-  position: absolute;
-  background-color: red;
-  top: 99%;
-  left: 96%;
-  -moz-transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  font-size: 1rem;
-}
-
 .step {
   margin: 0 auto 2rem auto;
   padding: 5px;
@@ -101,6 +87,19 @@ article {
 .step.is-active {
   opacity: 1;
   transition: ease, 1s;
+}
+
+.step-index {
+  background-color: #007acc;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 1rem;
+  text-align: center;
+  min-width: 60px;
 }
 
 .step p {
