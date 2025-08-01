@@ -1,5 +1,6 @@
 export class AnimationManager {
-  constructor() {
+  constructor(scrollyVizzu) {
+    this.scrollyVizzu = scrollyVizzu;
     this.animations = new Map();
     this.currentAnimations = new Map();
   }
@@ -15,12 +16,17 @@ export class AnimationManager {
     // Find which chart this step belongs to
     const chartId = this.findChartForStep(stepIndex);
     
-    if (chartId && this.animations.has(chartId)) {
-      const chartAnimations = this.animations.get(chartId);
-      
-      if (chartAnimations.has(stepIndex)) {
-        const animation = chartAnimations.get(stepIndex);
-        this.executeAnimation(chartId, animation);
+    if (chartId) {
+      const chartData = this.scrollyVizzu.charts.get(chartId);
+      if (chartData && chartData.steps) {
+        // Find the step within this chart's steps
+        const stepInChart = chartData.steps.find(step => 
+          this.scrollyVizzu.steps[stepIndex] === step
+        );
+        
+        if (stepInChart && stepInChart.chart) {
+          this.executeAnimation(chartId, stepInChart.chart);
+        }
       }
     }
   }
@@ -31,7 +37,7 @@ export class AnimationManager {
     return `fig${Math.floor(stepIndex / 5) + 1}`;
   }
   
-  executeAnimation(chartId, animation) {
+  executeAnimation(chartId, chartConfig) {
     const chart = this.getChartInstance(chartId);
     
     if (!chart) {
@@ -40,17 +46,17 @@ export class AnimationManager {
     }
     
     // Execute the animation
-    if (typeof animation === 'function') {
-      animation(chart);
-    } else if (typeof animation === 'object') {
-      chart.animate(animation);
+    if (typeof chartConfig === 'function') {
+      chartConfig(chart);
+    } else if (typeof chartConfig === 'object') {
+      chart.animate(chartConfig);
     }
   }
   
   getChartInstance(chartId) {
-    // This would need to be implemented to get the actual Vizzu chart instance
-    // For now, return null
-    return null;
+    // Get the chart instance from the ScrollyVizzu instance
+    const chartData = this.scrollyVizzu.charts.get(chartId);
+    return chartData ? chartData.instance : null;
   }
   
   // Predefined animation presets

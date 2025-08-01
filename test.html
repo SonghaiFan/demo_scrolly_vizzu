@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ScrollyVizzu Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+      #app {
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <!-- External Dependencies -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/scrollama"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vizzu@0.17/dist/vizzu.min.js"></script>
+
+    <!-- ScrollyVizzu Library -->
+    <script src="dist/scrolly-vizzu.min.js"></script>
+
+    <script>
+      // Test data
+      const testData = {
+        series: [
+          { name: "Category", type: "dimension", values: [] },
+          { name: "Value", type: "measure", values: [] },
+        ],
+        records: [
+          ["A", 10],
+          ["B", 20],
+          ["C", 15],
+          ["D", 25],
+        ],
+      };
+
+      // Test the library
+      try {
+        console.log("Testing ScrollyVizzu library...");
+
+        const story = new ScrollyVizzu({
+          container: "#app",
+          data: testData,
+          theme: "default",
+          navigation: false,
+          debug: true,
+        });
+
+        story
+          .chapter("Test Chapter", {
+            content: "This is a test chapter to verify the library works.",
+          })
+          .step("Test Step", {
+            content: "This step has a chart.",
+            chart: {
+              config: {
+                title: "Test Chart",
+                x: "Category",
+                y: "Value",
+                geometry: "rectangle",
+              },
+            },
+          })
+          .build();
+
+        console.log("✅ Library test successful!");
+      } catch (error) {
+        console.error("❌ Library test failed:", error);
+      }
+    </script>
+  </body>
+</html>

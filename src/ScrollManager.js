@@ -15,7 +15,10 @@ export class ScrollManager {
   }
   
   setup() {
-    if (!this.scroller) return;
+    if (!this.scroller) {
+      console.warn('Scrollama not available, skipping scroll setup');
+      return;
+    }
     
     // Update step heights
     this.updateStepHeights();
@@ -31,6 +34,8 @@ export class ScrollManager {
     this.scroller.onStepEnter(this.handleStepEnter.bind(this));
     this.scroller.onStepExit(this.handleStepExit.bind(this));
     this.scroller.onStepProgress(this.handleStepProgress.bind(this));
+    
+    console.log('ScrollManager setup complete');
   }
   
   updateStepHeights() {

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Vizzu Test</title>
+  </head>
+  <body>
+    <h1>Vizzu Global Object Test</h1>
+    <div id="output"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vizzu@0.17/dist/vizzu.min.js"></script>
+
+    <script>
+      const output = document.getElementById("output");
+
+      function log(message) {
+        console.log(message);
+        output.innerHTML += "<div>" + message + "</div>";
+      }
+
+      log("Testing Vizzu global objects...");
+      log("window.Vizzu: " + typeof window.Vizzu);
+      log("window.VizzuChart: " + typeof window.VizzuChart);
+
+      // Check all window properties that start with 'Vizzu'
+      Object.keys(window).forEach((key) => {
+        if (key.toLowerCase().includes("vizzu")) {
+          log("Found: window." + key + " = " + typeof window[key]);
+        }
+      });
+
+      // Try to find the constructor
+      if (typeof window.Vizzu === "function") {
+        log("✅ Vizzu constructor found as window.Vizzu");
+      } else if (typeof window.VizzuChart === "function") {
+        log("✅ Vizzu constructor found as window.VizzuChart");
+      } else {
+        log("❌ No Vizzu constructor found");
+      }
+    </script>
+  </body>
+</html>

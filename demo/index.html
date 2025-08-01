@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ScrollyVizzu Library Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="//fonts.googleapis.com/css?family=Raleway:400,300,600"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style>
+      body {
+        font-family: "Raleway", sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background-color: #f0f0f0;
+        z-index: 1001;
+      }
+
+      .progress-container {
+        width: 100%;
+        height: 100%;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background-color: #007bff;
+        width: 0%;
+        transition: width 0.3s ease;
+      }
+
+      #app {
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Progress Bar -->
+    <div class="header">
+      <div class="progress-container">
+        <div class="progress-bar" id="top-progress-bar"></div>
+      </div>
+    </div>
+
+    <!-- Main Container -->
+    <div id="app"></div>
+
+    <!-- External Dependencies -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/intersection-observer"></script>
+    <script src="https://unpkg.com/scrollama"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vizzu@0.17/dist/vizzu.min.js"></script>
+
+    <!-- ScrollyVizzu Library -->
+    <script src="../dist/scrolly-vizzu.min.js"></script>
+
+    <!-- Demo Script -->
+    <script>
+      // Debug: Check if Vizzu is available
+      console.log("Vizzu available:", typeof window.Vizzu);
+      console.log("VizzuChart available:", typeof window.VizzuChart);
+
+      // Sample data
+      const musicData = {
+        series: [
+          { name: "Year", type: "dimension", values: [] },
+          { name: "Format", type: "dimension", values: [] },
+          { name: "Revenue [m$]", type: "measure", values: [] },
+        ],
+        records: [
+          [1973, "Vinyl", 8371],
+          [1974, "Vinyl", 8137],
+          [1975, "Vinyl", 8161],
+          [1976, "Vinyl", 8679],
+          [1977, "Vinyl", 10422],
+          [1978, "Vinyl", 10851],
+          [1979, "Vinyl", 8594],
+          [1980, "Vinyl", 7695],
+          [1981, "Vinyl", 7397],
+          [1982, "Vinyl", 5922],
+          [1983, "Vinyl", 5089],
+          [1984, "Vinyl", 4602],
+          [1985, "Vinyl", 3756],
+          [1986, "Vinyl", 2860],
+          [1987, "Vinyl", 2270],
+          [1988, "Vinyl", 1559],
+          [1989, "Vinyl", 703],
+          [1990, "Vinyl", 358],
+          [1991, "Vinyl", 177],
+          [1992, "Vinyl", 147],
+          [1993, "Vinyl", 111],
+          [1994, "Vinyl", 114],
+          [1995, "Vinyl", 122],
+          [1996, "Vinyl", 139],
+          [1997, "Vinyl", 111],
+          [1998, "Vinyl", 95],
+          [1999, "Vinyl", 93],
+          [2000, "Vinyl", 81],
+          [2001, "Vinyl", 86],
+          [2002, "Vinyl", 65],
+          [2003, "Vinyl", 61],
+          [2004, "Vinyl", 54],
+          [2005, "Vinyl", 36],
+          [2006, "Vinyl", 33],
+          [2007, "Vinyl", 34],
+          [2008, "Vinyl", 72],
+          [2009, "Vinyl", 80],
+          [2010, "Vinyl", 108],
+          [2011, "Vinyl", 143],
+          [2012, "Vinyl", 187],
+          [2013, "Vinyl", 237],
+          [2014, "Vinyl", 273],
+          [2015, "Vinyl", 370],
+          [2016, "Vinyl", 389],
+          [2017, "Vinyl", 417],
+          [2018, "Vinyl", 438],
+          [2019, "Vinyl", 492],
+          [2020, "Vinyl", 626],
+        ],
+      };
+
+      // Initialize ScrollyVizzu
+      try {
+        const story = new ScrollyVizzu({
+          container: "#app",
+          data: musicData,
+          theme: "modern",
+          navigation: true,
+          debug: false,
+          offset: 0.5,
+        });
+
+        // Build the story
+        story
+          .chapter("The Evolution of Vinyl Records 📀", {
+            content:
+              "From the golden age of vinyl in the 1970s to its remarkable comeback in the 2010s, this story explores the fascinating journey of vinyl records in the music industry.",
+            className: "intro",
+          })
+          .step(
+            "In the 1970s, vinyl records dominated the music industry with annual revenue reaching over $10 billion. This was the golden age of vinyl.",
+            {
+              chart: {
+                config: {
+                  title: "Vinyl Revenue 1973-2020",
+                  x: "Year",
+                  y: "Revenue [m$]",
+                  geometry: "area",
+                },
+                style: {
+                  fontFamily: "Raleway",
+                  plot: {
+                    marker: {
+                      colorPalette: "#b74c20FF",
+                    },
+                  },
+                },
+              },
+            }
+          )
+          .step(
+            "By the 1990s, vinyl sales had plummeted to near zero as CDs became the dominant format. The digital revolution was in full swing.",
+            {
+              chart: {
+                config: {
+                  channels: {
+                    y: { range: { max: 12000 } },
+                  },
+                  title: "Vinyl Revenue Decline",
+                },
+              },
+            }
+          )
+          .step(
+            "Starting in the late 2000s, vinyl experienced an unexpected resurgence, driven by nostalgia and the tactile experience of physical media.",
+            {
+              chart: {
+                config: {
+                  channels: {
+                    y: { range: { max: 700 } },
+                  },
+                  title: "Vinyl's Comeback",
+                },
+              },
+            }
+          )
+          .chapter("The Future of Vinyl 🎵", {
+            content:
+              "Today, vinyl records coexist with digital streaming, offering a premium, intentional listening experience that appeals to music enthusiasts worldwide.",
+            className: "outro",
+          })
+          .build();
+
+        // Add custom event listeners
+        story.onStepEnter((response) => {
+          console.log(`Entered step ${response.index}`);
+
+          // Update progress bar
+          const progressBar = document.getElementById("top-progress-bar");
+          if (progressBar) {
+            const totalSteps =
+              document.querySelectorAll(".step, .chapter").length;
+            const progress = (response.index / (totalSteps - 1)) * 100;
+            progressBar.style.width = progress + "%";
+          }
+        });
+
+        // Add custom styling
+        story.styleManager.addCustomStyles(`
+        .intro {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+        }
+        
+        .intro h1 {
+          font-size: 3.5rem;
+          margin-bottom: 2rem;
+          text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .intro p {
+          font-size: 1.3rem;
+          max-width: 800px;
+          line-height: 1.7;
+          color: rgba(255,255,255,0.9);
+        }
+        
+        .outro {
+          background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+          color: white;
+        }
+        
+        .outro h1 {
+          font-size: 3rem;
+          margin-bottom: 2rem;
+          text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .outro p {
+          font-size: 1.2rem;
+          max-width: 700px;
+          line-height: 1.6;
+          color: rgba(255,255,255,0.9);
+        }
+      `);
+      } catch (error) {
+        console.error("Error initializing ScrollyVizzu:", error);
+      }
+    </script>
+  </body>
+</html>

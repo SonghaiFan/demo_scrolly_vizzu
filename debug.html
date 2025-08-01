@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ScrollyVizzu Debug</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+      #app {
+        min-height: 100vh;
+      }
+      .debug-info {
+        background: #f0f0f0;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="debug-info">
+      <h3>Debug Information</h3>
+      <div id="debug-output"></div>
+    </div>
+
+    <div id="app"></div>
+
+    <!-- External Dependencies -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/scrollama"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vizzu@0.17/dist/vizzu.min.js"></script>
+
+    <!-- ScrollyVizzu Library -->
+    <script src="dist/scrolly-vizzu.min.js"></script>
+
+    <script>
+      const debugOutput = document.getElementById("debug-output");
+
+      function log(message) {
+        console.log(message);
+        debugOutput.innerHTML += "<div>" + message + "</div>";
+      }
+
+      // Check dependencies
+      log("Checking dependencies...");
+      log("D3 available: " + (typeof d3 !== "undefined"));
+      log("Scrollama available: " + (typeof scrollama !== "undefined"));
+      log("Vizzu available: " + (typeof window.Vizzu !== "undefined"));
+      log("ScrollyVizzu available: " + (typeof ScrollyVizzu !== "undefined"));
+
+      if (typeof window.Vizzu !== "undefined") {
+        log("Vizzu constructor: " + typeof window.Vizzu);
+      }
+
+      // Test data
+      const testData = {
+        series: [
+          { name: "Category", type: "dimension", values: [] },
+          { name: "Value", type: "measure", values: [] },
+        ],
+        records: [
+          ["A", 10],
+          ["B", 20],
+          ["C", 15],
+          ["D", 25],
+        ],
+      };
+
+      // Test the library
+      try {
+        log("Creating ScrollyVizzu instance...");
+
+        const story = new ScrollyVizzu({
+          container: "#app",
+          data: testData,
+          theme: "default",
+          navigation: false,
+          debug: true,
+        });
+
+        log("ScrollyVizzu instance created successfully");
+
+        log("Building story...");
+        story
+          .chapter("Test Chapter", {
+            content: "This is a test chapter.",
+          })
+          .step("Test Step", {
+            content: "This step has a chart.",
+            chart: {
+              config: {
+                title: "Test Chart",
+                x: "Category",
+                y: "Value",
+                geometry: "rectangle",
+              },
+            },
+          })
+          .build();
+
+        log("✅ Story built successfully!");
+      } catch (error) {
+        log("❌ Error: " + error.message);
+        log("Stack: " + error.stack);
+      }
+    </script>
+  </body>
+</html>
