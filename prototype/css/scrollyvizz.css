@@ -1,0 +1,446 @@
+/* Apple-Inspired Minimalist CSS with Light Theme - Normalize.css Compatible */
+
+/* Override normalize.css defaults with more specific selectors */
+html.scrolly-vizz-html {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif !important;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #1d1d1f;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f8fa 100%);
+  text-align: center;
+  scroll-behavior: smooth;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+body.scrolly-vizz-body {
+  color: #1d1d1f !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f8fa 100%) !important;
+  text-align: center;
+  scroll-behavior: smooth;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif !important;
+  line-height: 1.6;
+  margin: 0 !important;
+  padding: 0;
+}
+
+/* Specific paragraph styling to override normalize */
+.scrolly-vizz-body p {
+  margin: auto;
+  max-width: 75ch;
+  color: #424245 !important;
+  font-size: 1.8rem !important;
+  font-weight: 400 !important;
+}
+
+/* Specific heading styling to override normalize */
+.scrolly-vizz-body h1 {
+  font-size: 6rem !important;
+  font-weight: 700 !important;
+  color: #1d1d1f !important;
+  margin: 2rem 0 !important;
+  letter-spacing: -0.02em;
+}
+
+/* Specific link styling to override normalize */
+.scrolly-vizz-body a {
+  color: #0071e3 !important;
+  text-decoration: none !important;
+  margin-left: 20px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  background-color: transparent !important;
+}
+
+.scrolly-vizz-body a:hover {
+  color: #0077ed !important;
+  font-weight: 600;
+  transform: translateY(-1px);
+  outline: 0;
+}
+
+.scrolly-vizz-body a:active {
+  outline: 0;
+}
+
+/* Step index styling */
+.step-index {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #0071e3 0%, #0077ed 100%);
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 6px 20px rgba(0, 113, 227, 0.3);
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.step-index:hover {
+  transform: translateX(-50%) scale(1.1);
+  box-shadow: 0 10px 28px rgba(0, 113, 227, 0.4);
+}
+
+/* Chapter styling */
+.chapter {
+  margin: 4rem auto;
+  min-height: 80vh;
+  scroll-margin-top: 25px;
+  padding: 4rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.chapter:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.chapter:hover .step-index {
+  transform: translateX(-50%) scale(1.05);
+}
+
+.intro {
+  margin-bottom: 50px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(248, 248, 250, 0.98) 100%
+  );
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.03);
+}
+
+.scrolly {
+  position: relative;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+article {
+  position: relative;
+  max-width: 45rem;
+  margin: 0 auto;
+}
+
+.figure {
+  position: -webkit-sticky;
+  position: sticky;
+  width: 100%;
+  margin: 0;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  z-index: 0;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+}
+
+.step {
+  margin: 0 auto 3rem auto;
+  padding: 4rem;
+  opacity: 0.4;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.02);
+  scroll-margin-top: 100px;
+  transform: translateY(10px);
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.step:first-child {
+  margin-top: 10em;
+}
+
+.step:last-child {
+  margin-bottom: 10em;
+}
+
+.step.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.step p {
+  padding: 1rem 0;
+  font-size: 2.2rem !important;
+  color: #424245 !important;
+  font-weight: 400 !important;
+  line-height: 1.6;
+  margin: 0 !important;
+  text-align: center;
+}
+
+.step a {
+  padding: 0.8rem;
+  font-size: 2.2rem !important;
+  color: #0071e3 !important;
+  font-weight: 500;
+  text-decoration: none !important;
+  background-color: transparent !important;
+}
+
+/* STICKY SIDE */
+
+.side {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.side > * {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.side > article {
+  padding: 0 1rem;
+}
+
+/* STICKY OVERLAY */
+
+.overlay > article {
+  padding: 0;
+  margin: 0 auto;
+}
+
+#navbar {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 1rem 0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Style the links inside the navigation bar */
+#navbar a {
+  float: left;
+  display: block;
+  text-align: center;
+  padding: 1rem 1.5rem;
+  opacity: 0.5;
+  color: #424245 !important;
+  border-radius: 12px;
+  margin: 0 0.5rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 1.1rem;
+  text-decoration: none !important;
+  background-color: transparent !important;
+}
+
+/* Change the color of links on hover */
+#navbar a:hover {
+  opacity: 0.8;
+  background: rgba(0, 113, 227, 0.1);
+  color: #0071e3 !important;
+  transform: translateY(-1px);
+  outline: 0;
+}
+
+#navbar a.is-active {
+  opacity: 1;
+  background: rgba(0, 113, 227, 0.15);
+  color: #0071e3 !important;
+  font-weight: 600;
+}
+
+/* Style the header: fixed position (always stay at the top) */
+.header {
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 1rem 0;
+}
+
+/* The progress container (grey background) */
+.progress-container {
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 1px;
+}
+
+/* The progress bar (scroll indicator) */
+.progress-bar {
+  height: 2px;
+  background: linear-gradient(90deg, #0071e3 0%, #0077ed 100%);
+  width: 0%;
+  border-radius: 1px;
+  transition: width 0.3s ease;
+}
+
+.scroll_indicator {
+  animation: jumpInfinite 2s ease-in-out infinite;
+  color: #0071e3;
+  font-weight: 500;
+  font-size: 1.8rem;
+  margin-top: 2rem;
+}
+
+@keyframes jumpInfinite {
+  0% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+}
+
+/* Additional Apple-style improvements */
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 113, 227, 0.2);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 113, 227, 0.4);
+}
+
+/* Focus states for accessibility */
+a:focus,
+button:focus {
+  outline: 2px solid #0071e3;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+  .chapter {
+    margin: 2rem auto;
+    padding: 3rem;
+    border-radius: 16px;
+  }
+
+  .scrolly-vizz-body h1 {
+    font-size: 4rem !important;
+  }
+
+  .step {
+    padding: 3rem;
+    margin-bottom: 2rem;
+    min-height: 200px;
+  }
+
+  .step p {
+    font-size: 1.8rem !important;
+  }
+
+  .side {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .figure {
+    border-radius: 16px;
+  }
+
+  .scrolly-vizz-body p {
+    font-size: 1.6rem !important;
+  }
+
+  .scroll_indicator {
+    font-size: 1.6rem;
+  }
+
+  /* Section index responsive styling */
+  .step-index {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    top: -12px;
+  }
+
+  .step-index:hover {
+    transform: translateX(-50%) scale(1.05);
+  }
+}
+
+@media (max-width: 480px) {
+  .step-index {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+    top: -10px;
+  }
+}

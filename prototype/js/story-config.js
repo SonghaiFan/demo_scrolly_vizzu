@@ -326,8 +326,70 @@ export const storyConfig = {
   ],
 };
 
+// Validation function
+export function validateStoryConfig() {
+  const errors = [];
+
+  if (!storyConfig.chapters || !Array.isArray(storyConfig.chapters)) {
+    errors.push("Story config must have a chapters array");
+    return errors;
+  }
+
+  storyConfig.chapters.forEach((chapter, chapterIndex) => {
+    if (!chapter.id) {
+      errors.push(`Chapter ${chapterIndex} missing id`);
+    }
+    if (!chapter.type) {
+      errors.push(`Chapter ${chapterIndex} missing type`);
+    }
+
+    if (chapter.type === "chapter") {
+      if (!chapter.title) {
+        errors.push(`Chapter ${chapterIndex} missing title`);
+      }
+      if (!chapter.content) {
+        errors.push(`Chapter ${chapterIndex} missing content`);
+      }
+    } else if (chapter.type === "scrolly") {
+      if (!chapter.chartId) {
+        errors.push(`Scrolly chapter ${chapterIndex} missing chartId`);
+      }
+      if (!chapter.steps || !Array.isArray(chapter.steps)) {
+        errors.push(`Scrolly chapter ${chapterIndex} missing steps array`);
+      } else {
+        chapter.steps.forEach((step, stepIndex) => {
+          if (!step.id) {
+            errors.push(
+              `Step ${stepIndex} in chapter ${chapterIndex} missing id`
+            );
+          }
+          if (!step.content) {
+            errors.push(
+              `Step ${stepIndex} in chapter ${chapterIndex} missing content`
+            );
+          }
+          if (!step.animation) {
+            errors.push(
+              `Step ${stepIndex} in chapter ${chapterIndex} missing animation`
+            );
+          }
+        });
+      }
+    } else {
+      errors.push(`Chapter ${chapterIndex} has unknown type: ${chapter.type}`);
+    }
+  });
+
+  return errors;
+}
+
 // Helper function to get step by index
 export function getStepByIndex(index) {
+  if (typeof index !== "number" || index < 0) {
+    console.warn(`Invalid step index: ${index}`);
+    return null;
+  }
+
   let stepIndex = 0;
   for (const chapter of storyConfig.chapters) {
     if (chapter.type === "scrolly") {
@@ -353,44 +415,86 @@ export function getTotalSteps() {
   return total;
 }
 
-// Helper function to generate HTML from story config
-export function generateHTML() {
-  let html = "";
-
-  for (const chapter of storyConfig.chapters) {
-    if (chapter.type === "chapter") {
-      html += generateChapterHTML(chapter);
-    } else if (chapter.type === "scrolly") {
-      html += generateScrollyHTML(chapter);
-    }
-  }
-
-  return html;
+// Helper function to get chapter by id
+export function getChapterById(id) {
+  return storyConfig.chapters.find((chapter) => chapter.id === id);
 }
 
-function generateChapterHTML(chapter) {
+// Helper function to get step by id
+export function getStepById(stepId) {
+  for (const chapter of storyConfig.chapters) {
+    if (chapter.type === "scrolly") {
+      const step = chapter.steps.find((step) => step.id === stepId);
+      if (step) {
+        return { chapter, step };
+      }
+    }
+  }
+  return null;
+}
+
+// Helper function to generate HTML from story config
+export function generateHTML() {
+  try {
+    // Validate the story config first
+    const validationErrors = validateStoryConfig();
+    if (validationErrors.length > 0) {
+      console.error("Story config validation errors:", validationErrors);
+      throw new Error(
+        `Story config validation failed: ${validationErrors.join(", ")}`
+      );
+    }
+
+    let html = "";
+    let sectionIndex = 1;
+
+    for (const chapter of storyConfig.chapters) {
+      if (chapter.type === "chapter") {
+        html += generateChapterHTML(chapter, sectionIndex);
+        sectionIndex++;
+      } else if (chapter.type === "scrolly") {
+        html += generateScrollyHTML(chapter, sectionIndex);
+        sectionIndex++;
+      } else {
+        console.warn(`Unknown chapter type: ${chapter.type}`);
+      }
+    }
+
+    return html;
+  } catch (error) {
+    console.error("Error generating HTML:", error);
+    return `<div class="error">Error generating story content: ${error.message}</div>`;
+  }
+}
+
+function generateChapterHTML(chapter, sectionIndex) {
   const isIntro = chapter.id === "intro";
   const isOutro = chapter.id === "outro";
 
   let html = `<div class="chapter${isIntro ? " intro" : ""}${
     isOutro ? " outro" : ""
   }">`;
-  html += `<h1>${chapter.title}</h1>`;
-  html += `<p>${chapter.content}</p>`;
+
+  html += `<h1>${escapeHtml(chapter.title)}</h1>`;
+  html += `<p>${escapeHtml(chapter.content)}</p>`;
 
   if (isIntro && chapter.scrollIndicator) {
-    html += `<br /><div class="scroll_indicator">${chapter.scrollIndicator}</div>`;
+    html += `<br /><div class="scroll_indicator">${escapeHtml(
+      chapter.scrollIndicator
+    )}</div>`;
   }
 
   if (isOutro && chapter.footer) {
-    html += `<p><br /><a href="#top">Jump to top of page</a><br />${chapter.footer}</p>`;
+    html += `<p><br /><a href="#top">Jump to top of page</a><br />${escapeHtml(
+      chapter.footer
+    )}</p>`;
   }
 
   html += "</div>";
   return html;
 }
 
-function generateScrollyHTML(chapter) {
+function generateScrollyHTML(chapter, sectionIndex) {
   const isOverlay = chapter.layout === "overlay";
 
   let html = `<div class="scrolly ${chapter.layout}">`;
@@ -402,9 +506,13 @@ function generateScrollyHTML(chapter) {
     html += "<article>";
   }
 
-  for (const step of chapter.steps) {
+  for (let i = 0; i < chapter.steps.length; i++) {
+    const step = chapter.steps[i];
+    const stepNumber = i + 1;
+
     html += `<div class="step" data-step-id="${step.id}">`;
-    html += `<p>${step.content}</p>`;
+    html += `<div class="step-index">${stepNumber}</div>`;
+    html += `<p>${escapeHtml(step.content)}</p>`;
     html += "</div>";
   }
 
@@ -416,4 +524,41 @@ function generateScrollyHTML(chapter) {
 
   html += "</div>";
   return html;
+}
+
+// Utility function to escape HTML
+function escapeHtml(text) {
+  if (typeof text !== "string") {
+    return String(text);
+  }
+
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+// Export story statistics
+export function getStoryStats() {
+  const stats = {
+    totalChapters: storyConfig.chapters.length,
+    textChapters: storyConfig.chapters.filter((c) => c.type === "chapter")
+      .length,
+    scrollyChapters: storyConfig.chapters.filter((c) => c.type === "scrolly")
+      .length,
+    totalSteps: getTotalSteps(),
+    totalAnimations: 0,
+    chartIds: [],
+  };
+
+  for (const chapter of storyConfig.chapters) {
+    if (chapter.type === "scrolly") {
+      stats.chartIds.push(chapter.chartId);
+      stats.totalAnimations += chapter.steps.length;
+    }
+  }
+
+  return stats;
 }
